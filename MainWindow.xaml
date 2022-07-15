@@ -5,18 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LiquidDispense"
         mc:Ignorable="d"
-        Title="MainWindow" Height="277" Width="542">
+        Title="MainWindow" Height="291" Width="542">
     <Grid>
-        <Button x:Name="xStepForward_btn" Content="X Forward" HorizontalAlignment="Left" Margin="90,57,0,0" VerticalAlignment="Top" Click="xStepForward_btn_Click"/>
-        <Button x:Name="xStepBack_btn" Content="X Backward" HorizontalAlignment="Left" Margin="90,101,0,0" VerticalAlignment="Top" Click="xStepBack_btn_Click"/>
-        <Button x:Name="yStepForward_btn" Content="Y Forward" HorizontalAlignment="Left" Margin="160,57,0,0" VerticalAlignment="Top" Click="yStepForward_btn_Click"/>
-        <Button x:Name="yStepBack_btn" Content="Y Backward" HorizontalAlignment="Left" Margin="160,101,0,0" VerticalAlignment="Top" Click="yStepBack_btn_Click"/>
-        <Button x:Name="lowerZ_btn" Content="Lower Z" HorizontalAlignment="Left" Margin="290,57,0,0" VerticalAlignment="Top" Click="lowerZ_btn_Click"/>
-        <Button x:Name="raiseZ_btn" Content="Raise Z" HorizontalAlignment="Left" Margin="290,101,0,0" VerticalAlignment="Top" Click="raiseZ_btn_Click"/>
-        <Button x:Name="drawLiquid_btn" Content="Draw Liquid" HorizontalAlignment="Left" Margin="360,57,0,0" VerticalAlignment="Top" Click="drawLiquid_btn_Click"/>
-        <Button x:Name="dispense_btn" Content="Dispense Liquid" HorizontalAlignment="Left" Margin="360,101,0,0" VerticalAlignment="Top" Click="dispense_btn_Click"/>
-        <TextBox x:Name="numSteps_tb" HorizontalAlignment="Left" Margin="229,78,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="40"/>
-        <Button x:Name="ReadInputBtn" Content="Read Limit Switches" HorizontalAlignment="Left" Margin="108,143,0,0" VerticalAlignment="Top" Click="ReadInputBtn_Click"/>
-        <TextBlock x:Name="LimitInputText" HorizontalAlignment="Left" Margin="229,145,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Button x:Name="xStepForward_btn" Content="X Forward" HorizontalAlignment="Left" Margin="90,36,0,0" VerticalAlignment="Top" Click="xStepForward_btn_Click"/>
+        <Button x:Name="xStepBack_btn" Content="X Backward" HorizontalAlignment="Left" Margin="90,80,0,0" VerticalAlignment="Top" Click="xStepBack_btn_Click"/>
+        <Button x:Name="yStepForward_btn" Content="Y Forward" HorizontalAlignment="Left" Margin="160,36,0,0" VerticalAlignment="Top" Click="yStepForward_btn_Click"/>
+        <Button x:Name="yStepBack_btn" Content="Y Backward" HorizontalAlignment="Left" Margin="160,80,0,0" VerticalAlignment="Top" Click="yStepBack_btn_Click"/>
+        <Button x:Name="lowerZ_btn" Content="Lower Z" HorizontalAlignment="Left" Margin="290,36,0,0" VerticalAlignment="Top" Click="lowerZ_btn_Click"/>
+        <Button x:Name="raiseZ_btn" Content="Raise Z" HorizontalAlignment="Left" Margin="290,80,0,0" VerticalAlignment="Top" Click="raiseZ_btn_Click"/>
+        <Button x:Name="drawLiquid_btn" Content="Draw Liquid" HorizontalAlignment="Left" Margin="360,36,0,0" VerticalAlignment="Top" Click="drawLiquid_btn_Click"/>
+        <Button x:Name="dispense_btn" Content="Dispense Liquid" HorizontalAlignment="Left" Margin="360,80,0,0" VerticalAlignment="Top" Click="dispense_btn_Click"/>
+        <TextBox x:Name="numSteps_tb" HorizontalAlignment="Left" Margin="229,57,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="40"/>
+        <Button x:Name="ReadInputBtn" Content="Read Limit Switches" HorizontalAlignment="Left" Margin="108,122,0,0" VerticalAlignment="Top" Click="ReadInputBtn_Click"/>
+        <TextBlock x:Name="LimitInputText" HorizontalAlignment="Left" Margin="229,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <Button x:Name="startPump_btn" Content="Start Pump" HorizontalAlignment="Left" Margin="290,124,0,0" VerticalAlignment="Top" Click="startPump_btn_Click"/>
+        <Button x:Name="stopPump_btn" Content="Stop Pump" HorizontalAlignment="Left" Margin="373,124,0,0" VerticalAlignment="Top" Click="stopPump_btn_Click"/>
+        <Button x:Name="q1Diag_btn" Content="Q1 Diagonal" HorizontalAlignment="Left" Margin="262,166,0,0" VerticalAlignment="Top" Click="q1Diag_btn_Click"/>
+        <Button x:Name="q2Diag_btn" Content="Q2 Diagonal" HorizontalAlignment="Left" Margin="179,166,0,0" VerticalAlignment="Top" Click="q2Diag_btn_Click"/>
+        <Button x:Name="q3Diag_btn" Content="Q3 Diagonal" HorizontalAlignment="Left" Margin="179,205,0,0" VerticalAlignment="Top" Click="q3Diag_btn_Click"/>
+        <Button x:Name="q4Diag_btn" Content="Q4 Diagonal" HorizontalAlignment="Left" Margin="262,205,0,0" VerticalAlignment="Top" Click="q4Diag_btn_Click"/>
+        <Button x:Name="stop_btn" Content="stop stepping" HorizontalAlignment="Left" Margin="51,205,0,0" VerticalAlignment="Top" Click="stop_btn_Click"/>
+        <Button x:Name="testloop_btn" Content="Test" HorizontalAlignment="Left" Margin="64,176,0,0" VerticalAlignment="Top" Click="testloop_btn_Click"/>
     </Grid>
 </Window>
