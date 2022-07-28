@@ -16,6 +16,7 @@ using System.Windows.Media.Converters;
 using System.Threading;
 using System.IO;
 using System.Data;
+using System.Media;
 
 using NationalInstruments;
 using NationalInstruments.DAQmx;
@@ -143,7 +144,7 @@ namespace LiquidDispense
             testCloseTasksAndChannels();
         }
 
-        int wait = 0;
+        int wait = 1;
         string test = DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0];
         string test2 = DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1];
         string test3 = DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2];
@@ -232,7 +233,7 @@ namespace LiquidDispense
                 }
             }
 
-            try
+            /*try
             {
                 using (NationalInstruments.DAQmx.Task digitalReadTask = new NationalInstruments.DAQmx.Task())
                 {
@@ -278,7 +279,7 @@ namespace LiquidDispense
             catch (DaqException ex)
             {
                 MessageBox.Show(ex.Message);
-            }
+            }*/
         }
 
         private void yStepForward_btn_Click(object sender, RoutedEventArgs e)
@@ -432,7 +433,7 @@ namespace LiquidDispense
                         //  of digital data on demand, so no timeout is necessary.
                         DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
                         writer.WriteSingleSamplePort(true, 64);
-                        //Thread.Sleep(1);
+                        Thread.Sleep(wait);
                         writer.WriteSingleSamplePort(true, 0);
                     }
                 }
@@ -461,7 +462,7 @@ namespace LiquidDispense
                         //  of digital data on demand, so no timeout is necessary.
                         DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
                         writer.WriteSingleSamplePort(true, 192);
-                        //Thread.Sleep(1);
+                        Thread.Sleep(wait);
                         writer.WriteSingleSamplePort(true, 128);
                     }
 
@@ -515,7 +516,7 @@ namespace LiquidDispense
 
                     if (limitInputText == "4" || limitInputText == "5" || limitInputText == "6" || limitInputText == "7")
                     {
-                        for (int i = 0; i < 500; i++)
+                        for (int i = 0; i < 300; i++)
                         {
                             try
                             {
@@ -978,6 +979,13 @@ namespace LiquidDispense
             static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
             [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
             static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+        }
+
+        private void soundTest_btn_Click(object sender, RoutedEventArgs e)
+        {
+            MediaPlayer sound1 = new MediaPlayer();
+            sound1.Open(new Uri(@"C:\Users\seaot\Downloads\43536__mkoenig__ultra-dnb-loop-160bpm.wav"));
+            sound1.Play();
         }
 
 
