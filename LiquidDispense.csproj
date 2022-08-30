@@ -39,7 +39,7 @@
       <HintPath>packages\Hangfire.Core.1.7.30\lib\net46\Hangfire.Core.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.Common, Version=19.1.40.49152, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL" />
-    <Reference Include="NationalInstruments.DAQmx, Version=21.3.45.49317, Culture=neutral, PublicKeyToken=4febd62461bf11a4, processorArchitecture=AMD64" />
+    <Reference Include="NationalInstruments.DAQmx, Version=22.5.45.49247, Culture=neutral, PublicKeyToken=4febd62461bf11a4, processorArchitecture=x86" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.5.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -107,7 +107,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DLLs\DAQinterfaceForKaya17.dll" />
+    <Content Include="DLLs\DAQinterfaceForKaya17.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

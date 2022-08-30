@@ -45,15 +45,42 @@ namespace LiquidDispense
         [DllImport(@".\DLLs\DAQinterfaceForKaya17.dll", CallingConvention = CallingConvention.Cdecl)]
         static extern void testCloseTasksAndChannels();
 
+        string[] devices; 
+        string[] getChannels;
+        string test;
+        string test2;
+        string test3;
+        int wait;
+
         public MainWindow()
         {
-            InitializeComponent();
-        }        
+            devices = DaqSystem.Local.Devices;
 
-        int wait = 1;
-        string test = DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0];
-        string test2 = DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1];
-        string test3 = DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2];
+            for (int i = 0; i < devices.Length; i++)
+            {
+                Console.WriteLine(devices[i]);
+            }
+
+            getChannels = DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External);
+
+            for (int i = 0; i < getChannels.Length; i++)
+            {
+                Console.WriteLine(getChannels[i]);
+            }
+
+            test = getChannels[3];
+            Console.WriteLine("Dev2 Port0" + test);
+
+            test2 = getChannels[4];
+            Console.WriteLine("Dev2 Port1" + test2);
+
+            test3 = getChannels[5];
+            Console.WriteLine("Dev2 Port2" + test3);
+
+            wait = 1;
+
+            InitializeComponent();
+        }
 
         private void xStepForward_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -139,7 +166,7 @@ namespace LiquidDispense
                 }
             }
 
-            /*try
+            try
             {
                 using (NationalInstruments.DAQmx.Task digitalReadTask = new NationalInstruments.DAQmx.Task())
                 {
@@ -156,7 +183,7 @@ namespace LiquidDispense
 
                     if (limitInputText == "1" || limitInputText == "3" || limitInputText == "5" || limitInputText == "7")
                     {
-                        for (int i = 0; i < 400; i++)
+                        for (int i = 0; i < 100; i++)
                         {
                             try
                             {
@@ -170,7 +197,7 @@ namespace LiquidDispense
                                     //  of digital data on demand, so no timeout is necessary.
                                     DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
                                     writer.WriteSingleSamplePort(true, 32);
-                                    Thread.Sleep(wait);
+                                    //Thread.Sleep(wait);
                                     writer.WriteSingleSamplePort(true, 48);
                                 }
                             }
@@ -185,7 +212,7 @@ namespace LiquidDispense
             catch (DaqException ex)
             {
                 MessageBox.Show(ex.Message);
-            }*/
+            }
         }
 
         private void yStepForward_btn_Click(object sender, RoutedEventArgs e)
@@ -551,6 +578,7 @@ namespace LiquidDispense
                     DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
                     writer.WriteSingleSamplePort(true, 1);
                 }
+                Console.WriteLine("Switched banks");
                 using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                 {
                     //  Create an Digital Output channel and name it.
@@ -560,8 +588,9 @@ namespace LiquidDispense
                     //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
                     //  of digital data on demand, so no timeout is necessary.
                     DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                    writer.WriteSingleSamplePort(true, 8);
+                    writer.WriteSingleSamplePort(true, 12);
                 }
+                Console.WriteLine("Pump on");
             }
             catch (Exception ex)
             {
@@ -582,8 +611,9 @@ namespace LiquidDispense
                     //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
                     //  of digital data on demand, so no timeout is necessary.
                     DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                    writer.WriteSingleSamplePort(true, 0);
+                    writer.WriteSingleSamplePort(true, 8);
                 }
+                Console.WriteLine("Pump off");
                 using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                 {
                     //  Create an Digital Output channel and name it.
@@ -595,6 +625,7 @@ namespace LiquidDispense
                     DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
                     writer.WriteSingleSamplePort(true, 0);
                 }
+                Console.WriteLine("Switched banks back");
             }
             catch (Exception ex)
             {
@@ -840,6 +871,108 @@ namespace LiquidDispense
             MediaPlayer sound1 = new MediaPlayer();
             sound1.Open(new Uri(@"C:\Users\seaot\Downloads\43536__mkoenig__ultra-dnb-loop-160bpm.wav"));
             sound1.Play();
+        }
+
+        private void readTest_btn_Click(object sender, RoutedEventArgs e)
+        {
+            double[] testArray = new double[17];
+
+            // read parameter file and read in all necessary parameters
+            string[] parameters = File.ReadAllLines(@"C:\Users\Public\Documents\kaya17\bin\Kaya17Covi2V.txt");
+            double ledOutputRange = double.Parse(parameters[0].Substring(0, 3));
+            double numSamplesPerReading = double.Parse(parameters[1].Substring(0, 3));
+            double numTempSamplesPerReading = double.Parse(parameters[2].Substring(0, 2));
+            double samplingRate = double.Parse(parameters[3].Substring(0, 5));
+            double numSamplesForAvg = double.Parse(parameters[4].Substring(0, 3));
+            double errorLimitInMillivolts = double.Parse(parameters[5].Substring(0, 2));
+            double saturation = double.Parse(parameters[8].Substring(0, 8));
+            double expectedDarkRdg = double.Parse(parameters[6].Substring(0, 4));
+            double lowSignal = double.Parse(parameters[29].Substring(0, 5));
+            double readMethod = double.Parse(parameters[9].Substring(0, 1));
+            double ledOnDuration = double.Parse(parameters[9].Substring(4, 3));
+            double readDelayInMS = double.Parse(parameters[9].Substring(8, 1));
+            double excitationLedVoltage = double.Parse(parameters[33].Substring(0, 5));
+            double excMinVoltage = double.Parse(parameters[26].Substring(0, 3));
+            double excNomVoltage = double.Parse(parameters[25].Substring(0, 4));
+            double excMaxVoltage = double.Parse(parameters[24].Substring(0, 3));
+            double calMinVoltage = double.Parse(parameters[18].Substring(0, 3));
+            double calNomVoltage = double.Parse(parameters[17].Substring(0, 3));
+            double calMaxVoltage = double.Parse(parameters[16].Substring(0, 3));
+
+
+
+            testArray[0] = ledOutputRange;
+            testArray[1] = samplingRate;
+            testArray[2] = numSamplesPerReading;
+            testArray[3] = numSamplesForAvg;
+            testArray[4] = errorLimitInMillivolts;
+            testArray[5] = numTempSamplesPerReading;
+            testArray[6] = saturation;
+            testArray[7] = expectedDarkRdg;
+            testArray[8] = lowSignal;
+            testArray[9] = ledOnDuration;
+            testArray[10] = readDelayInMS;
+            testArray[11] = calMinVoltage;
+            testArray[12] = calNomVoltage;
+            testArray[13] = calMaxVoltage;
+            testArray[14] = excMinVoltage;
+            testArray[15] = excNomVoltage;
+            testArray[16] = excMaxVoltage;
+
+            string testString = "";
+            foreach (double value in testArray)
+            {
+                testString += "Input: " + value + "\n";
+            }
+
+            MessageBox.Show(testString);
+
+            IntPtr testPtr = verifyInput(testArray);
+            double[] testArray2 = new double[17];
+            Marshal.Copy(testPtr, testArray2, 0, 17);
+            testString = "";
+            foreach (double value in testArray2)
+            {
+                testString += "Verify input: " + value + "\n";
+            }
+
+            MessageBox.Show(testString);
+
+            bool settingsBool = testSetSettings(testArray);
+
+            MessageBox.Show("Test setSettings: " + settingsBool);
+
+            double[] avgVals = new double[5];
+
+            StringBuilder sb = new StringBuilder(5000);
+            bool initializeBoardBool = testInitializeBoard(sb, sb.Capacity);
+
+            MessageBox.Show("Test initializeBoard: " + initializeBoardBool + "\n" + sb.ToString());
+
+            for (int i = 0; i < 4; i++)
+            {
+                MessageBox.Show("Insert Cartridge and then click ok");
+
+                StringBuilder sb2 = new StringBuilder(10000);
+
+                IntPtr testBoardValuePtr = testGetBoardValue(sb2, sb2.Capacity);
+                double[] testArray3 = new double[5];
+                Marshal.Copy(testBoardValuePtr, testArray3, 0, 5);
+                testString = "";
+                testString += "Return Value: m_dAvgValue = " + testArray3[0] + "\n";
+                // avgVals.Append(testArray3[0]);
+                avgVals[i] = testArray3[0];
+                testString += "Return Value: m_dCumSum = " + testArray3[1] + "\n";
+                testString += "Return Value: m_dLEDtmp = " + testArray3[2] + "\n";
+                testString += "Return Value: m_dPDtmp = " + testArray3[3] + "\n";
+                testString += "Return Value: testGetBoardValue = " + testArray3[4] + "\n";
+
+                MessageBox.Show(testString + sb2.ToString());
+
+                Console.WriteLine(avgVals[i].ToString());
+            }
+
+            testCloseTasksAndChannels();
         }
 
 
