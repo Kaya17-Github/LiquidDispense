@@ -68,14 +68,14 @@ namespace LiquidDispense
                 Console.WriteLine(getChannels[i]);
             }
 
-            test = getChannels[3];
-            Console.WriteLine("Dev2 Port0" + test);
+            test = getChannels[0];
+            Console.WriteLine(test);
 
-            test2 = getChannels[4];
-            Console.WriteLine("Dev2 Port1" + test2);
+            test2 = getChannels[1];
+            Console.WriteLine(test2);
 
-            test3 = getChannels[5];
-            Console.WriteLine("Dev2 Port2" + test3);
+            test3 = getChannels[2];
+            Console.WriteLine(test3);
 
             wait = 1;
 
@@ -88,25 +88,18 @@ namespace LiquidDispense
 
             for (int i = 0; i < numSteps; i++)
             {
-                try
+                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                 {
-                    using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                    {
-                        //  Create an Digital Output channel and name it.
-                        digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                            ChannelLineGrouping.OneChannelForAllLines);
+                    //  Create an Digital Output channel and name it.
+                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                        ChannelLineGrouping.OneChannelForAllLines);
 
-                        //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                        //  of digital data on demand, so no timeout is necessary.
-                        DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                        writer.WriteSingleSamplePort(true, 32);
-                        //Thread.Sleep(wait);
-                        writer.WriteSingleSamplePort(true, 48);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
+                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                    //  of digital data on demand, so no timeout is necessary.
+                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                    writer.WriteSingleSamplePort(true, 32);
+                    //Thread.Sleep(wait);
+                    writer.WriteSingleSamplePort(true, 48);
                 }
             }
         }
@@ -117,57 +110,20 @@ namespace LiquidDispense
 
             for (int i = 0; i < numSteps; i++)
             {
-                try
+                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                 {
-                    using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                    {
-                        //  Create an Digital Output channel and name it.
-                        digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                            ChannelLineGrouping.OneChannelForAllLines);
+                    //  Create an Digital Output channel and name it.
+                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                        ChannelLineGrouping.OneChannelForAllLines);
 
-                        //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                        //  of digital data on demand, so no timeout is necessary.
-                        DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                        writer.WriteSingleSamplePort(true, 16);
-                        //Thread.Sleep(wait);
-                        writer.WriteSingleSamplePort(true, 0);
-                    }
-
-                    try
-                    {
-                        using (NationalInstruments.DAQmx.Task digitalReadTask = new NationalInstruments.DAQmx.Task())
-                        {
-                            digitalReadTask.DIChannels.CreateChannel(
-                                test2,
-                                "port1",
-                                ChannelLineGrouping.OneChannelForAllLines);
-
-                            DigitalSingleChannelReader reader = new DigitalSingleChannelReader(digitalReadTask.Stream);
-                            UInt32 data = reader.ReadSingleSamplePortUInt32();
-
-                            //Update the Data Read box
-                            string limitInputText = data.ToString();
-
-                            if (limitInputText == "1" || limitInputText == "3" || limitInputText == "5" || limitInputText == "7")
-                            {
-                                MessageBox.Show("X limit reached");
-                                break;
-                            }
-                        }
-                    }
-                    catch (DaqException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                    //  of digital data on demand, so no timeout is necessary.
+                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                    writer.WriteSingleSamplePort(true, 16);
+                    //Thread.Sleep(wait);
+                    writer.WriteSingleSamplePort(true, 0);
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
 
-            try
-            {
                 using (NationalInstruments.DAQmx.Task digitalReadTask = new NationalInstruments.DAQmx.Task())
                 {
                     digitalReadTask.DIChannels.CreateChannel(
@@ -183,36 +139,27 @@ namespace LiquidDispense
 
                     if (limitInputText == "1" || limitInputText == "3" || limitInputText == "5" || limitInputText == "7")
                     {
-                        for (int i = 0; i < 100; i++)
+                        //MessageBox.Show("X limit reached");
+                        for (int j = 0; j < 100; j++)
                         {
-                            try
+                            using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                             {
-                                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                                {
-                                    //  Create an Digital Output channel and name it.
-                                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                                        ChannelLineGrouping.OneChannelForAllLines);
+                                //  Create an Digital Output channel and name it.
+                                digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                                    ChannelLineGrouping.OneChannelForAllLines);
 
-                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                    //  of digital data on demand, so no timeout is necessary.
-                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                    writer.WriteSingleSamplePort(true, 32);
-                                    //Thread.Sleep(wait);
-                                    writer.WriteSingleSamplePort(true, 48);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
+                                //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                //  of digital data on demand, so no timeout is necessary.
+                                DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                writer.WriteSingleSamplePort(true, 32);
+                                //Thread.Sleep(wait);
+                                writer.WriteSingleSamplePort(true, 48);
                             }
                         }
+                        break;
                     }
                 }
-            }
-            catch (DaqException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            }            
         }
 
         private void yStepForward_btn_Click(object sender, RoutedEventArgs e)
@@ -221,25 +168,18 @@ namespace LiquidDispense
 
             for (int i = 0; i < numSteps; i++)
             {
-                try
+                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                 {
-                    using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                    {
-                        //  Create an Digital Output channel and name it.
-                        digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                            ChannelLineGrouping.OneChannelForAllLines);
+                    //  Create an Digital Output channel and name it.
+                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                        ChannelLineGrouping.OneChannelForAllLines);
 
-                        //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                        //  of digital data on demand, so no timeout is necessary.
-                        DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                        writer.WriteSingleSamplePort(true, 12);
-                        //Thread.Sleep(wait);
-                        writer.WriteSingleSamplePort(true, 8);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
+                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                    //  of digital data on demand, so no timeout is necessary.
+                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                    writer.WriteSingleSamplePort(true, 12);
+                    //Thread.Sleep(wait);
+                    writer.WriteSingleSamplePort(true, 8);
                 }
             }
         }
@@ -250,57 +190,20 @@ namespace LiquidDispense
 
             for (int i = 0; i < numSteps; i++)
             {
-                try
+                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                 {
-                    using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                    {
-                        //  Create an Digital Output channel and name it.
-                        digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                            ChannelLineGrouping.OneChannelForAllLines);
+                    //  Create an Digital Output channel and name it.
+                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                        ChannelLineGrouping.OneChannelForAllLines);
 
-                        //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                        //  of digital data on demand, so no timeout is necessary.
-                        DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                        writer.WriteSingleSamplePort(true, 4);
-                        //Thread.Sleep(wait);
-                        writer.WriteSingleSamplePort(true, 0);
-                    }
-
-                    try
-                    {
-                        using (NationalInstruments.DAQmx.Task digitalReadTask = new NationalInstruments.DAQmx.Task())
-                        {
-                            digitalReadTask.DIChannels.CreateChannel(
-                                test2,
-                                "port1",
-                                ChannelLineGrouping.OneChannelForAllLines);
-
-                            DigitalSingleChannelReader reader = new DigitalSingleChannelReader(digitalReadTask.Stream);
-                            UInt32 data = reader.ReadSingleSamplePortUInt32();
-
-                            //Update the Data Read box
-                            string limitInputText = data.ToString();
-
-                            if (limitInputText == "2" || limitInputText == "3" || limitInputText == "6" || limitInputText == "7")
-                            {
-                                MessageBox.Show("Y limit reached");
-                                break;
-                            }
-                        }
-                    }
-                    catch (DaqException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                    //  of digital data on demand, so no timeout is necessary.
+                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                    writer.WriteSingleSamplePort(true, 4);
+                    //Thread.Sleep(wait);
+                    writer.WriteSingleSamplePort(true, 0);
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
 
-            try
-            {
                 using (NationalInstruments.DAQmx.Task digitalReadTask = new NationalInstruments.DAQmx.Task())
                 {
                     digitalReadTask.DIChannels.CreateChannel(
@@ -316,35 +219,26 @@ namespace LiquidDispense
 
                     if (limitInputText == "2" || limitInputText == "3" || limitInputText == "6" || limitInputText == "7")
                     {
-                        for (int i = 0; i < 500; i++)
+                        //MessageBox.Show("Y limit reached");
+                        for (int j = 0; j < 500; j++)
                         {
-                            try
+                            using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                             {
-                                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                                {
-                                    //  Create an Digital Output channel and name it.
-                                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                                        ChannelLineGrouping.OneChannelForAllLines);
+                                //  Create an Digital Output channel and name it.
+                                digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                                    ChannelLineGrouping.OneChannelForAllLines);
 
-                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                    //  of digital data on demand, so no timeout is necessary.
-                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                    writer.WriteSingleSamplePort(true, 12);
-                                    //Thread.Sleep(wait);
-                                    writer.WriteSingleSamplePort(true, 8);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
+                                //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                //  of digital data on demand, so no timeout is necessary.
+                                DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                writer.WriteSingleSamplePort(true, 12);
+                                //Thread.Sleep(wait);
+                                writer.WriteSingleSamplePort(true, 8);
                             }
                         }
+                        break;
                     }
                 }
-            }
-            catch (DaqException ex)
-            {
-                MessageBox.Show(ex.Message);
             }
         }
 
@@ -354,25 +248,18 @@ namespace LiquidDispense
 
             for (int i = 0; i < numSteps; i++)
             {
-                try
+                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                 {
-                    using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                    {
-                        //  Create an Digital Output channel and name it.
-                        digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                            ChannelLineGrouping.OneChannelForAllLines);
+                    //  Create an Digital Output channel and name it.
+                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                        ChannelLineGrouping.OneChannelForAllLines);
 
-                        //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                        //  of digital data on demand, so no timeout is necessary.
-                        DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                        writer.WriteSingleSamplePort(true, 64);
-                        //Thread.Sleep(wait);
-                        writer.WriteSingleSamplePort(true, 0);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
+                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                    //  of digital data on demand, so no timeout is necessary.
+                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                    writer.WriteSingleSamplePort(true, 64);
+                    //Thread.Sleep(wait);
+                    writer.WriteSingleSamplePort(true, 0);
                 }
             }
         }
@@ -383,57 +270,20 @@ namespace LiquidDispense
 
             for (int i = 0; i < numSteps; i++)
             {
-                try
+                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                 {
-                    using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                    {
-                        //  Create an Digital Output channel and name it.
-                        digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                            ChannelLineGrouping.OneChannelForAllLines);
+                    //  Create an Digital Output channel and name it.
+                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                        ChannelLineGrouping.OneChannelForAllLines);
 
-                        //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                        //  of digital data on demand, so no timeout is necessary.
-                        DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                        writer.WriteSingleSamplePort(true, 192);
-                        //Thread.Sleep(wait);
-                        writer.WriteSingleSamplePort(true, 128);
-                    }
-
-                    try
-                    {
-                        using (NationalInstruments.DAQmx.Task digitalReadTask = new NationalInstruments.DAQmx.Task())
-                        {
-                            digitalReadTask.DIChannels.CreateChannel(
-                                test2,
-                                "port1",
-                                ChannelLineGrouping.OneChannelForAllLines);
-
-                            DigitalSingleChannelReader reader = new DigitalSingleChannelReader(digitalReadTask.Stream);
-                            UInt32 data = reader.ReadSingleSamplePortUInt32();
-
-                            //Update the Data Read box
-                            string limitInputText = data.ToString();
-
-                            if (limitInputText == "4" || limitInputText == "5" || limitInputText == "6" || limitInputText == "7")
-                            {
-                                MessageBox.Show("Z limit reached");
-                                break;
-                            }
-                        }
-                    }
-                    catch (DaqException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                    //  of digital data on demand, so no timeout is necessary.
+                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                    writer.WriteSingleSamplePort(true, 192);
+                    //Thread.Sleep(wait);
+                    writer.WriteSingleSamplePort(true, 128);
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
 
-            try
-            {
                 using (NationalInstruments.DAQmx.Task digitalReadTask = new NationalInstruments.DAQmx.Task())
                 {
                     digitalReadTask.DIChannels.CreateChannel(
@@ -449,35 +299,26 @@ namespace LiquidDispense
 
                     if (limitInputText == "4" || limitInputText == "5" || limitInputText == "6" || limitInputText == "7")
                     {
-                        for (int i = 0; i < 300; i++)
+                        //MessageBox.Show("Z limit reached");
+                        for (int j = 0; j < 300; j++)
                         {
-                            try
+                            using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                             {
-                                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                                {
-                                    //  Create an Digital Output channel and name it.
-                                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                                        ChannelLineGrouping.OneChannelForAllLines);
+                                //  Create an Digital Output channel and name it.
+                                digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                                    ChannelLineGrouping.OneChannelForAllLines);
 
-                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                    //  of digital data on demand, so no timeout is necessary.
-                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                    writer.WriteSingleSamplePort(true, 64);
-                                    //Thread.Sleep(1);
-                                    writer.WriteSingleSamplePort(true, 0);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
+                                //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                //  of digital data on demand, so no timeout is necessary.
+                                DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                writer.WriteSingleSamplePort(true, 64);
+                                //Thread.Sleep(1);
+                                writer.WriteSingleSamplePort(true, 0);
                             }
                         }
+                        break;
                     }
                 }
-            }
-            catch (DaqException ex)
-            {
-                MessageBox.Show(ex.Message);
             }
         }
 
@@ -487,25 +328,18 @@ namespace LiquidDispense
 
             for (int i = 0; i < numSteps; i++)
             {
-                try
+                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                 {
-                    using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                    {
-                        //  Create an Digital Output channel and name it.
-                        digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                            ChannelLineGrouping.OneChannelForAllLines);
+                    //  Create an Digital Output channel and name it.
+                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                        ChannelLineGrouping.OneChannelForAllLines);
 
-                        //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                        //  of digital data on demand, so no timeout is necessary.
-                        DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                        writer.WriteSingleSamplePort(true, 1);
-                        Thread.Sleep(wait);
-                        writer.WriteSingleSamplePort(true, 0);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
+                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                    //  of digital data on demand, so no timeout is necessary.
+                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                    writer.WriteSingleSamplePort(true, 1);
+                    Thread.Sleep(wait);
+                    writer.WriteSingleSamplePort(true, 0);
                 }
             }
         }
@@ -516,121 +350,93 @@ namespace LiquidDispense
 
             for (int i = 0; i < numSteps; i++)
             {
-                try
+                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
                 {
-                    using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                    {
-                        //  Create an Digital Output channel and name it.
-                        digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                            ChannelLineGrouping.OneChannelForAllLines);
+                    //  Create an Digital Output channel and name it.
+                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                        ChannelLineGrouping.OneChannelForAllLines);
 
-                        //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                        //  of digital data on demand, so no timeout is necessary.
-                        DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                        writer.WriteSingleSamplePort(true, 3);
-                        Thread.Sleep(wait);
-                        writer.WriteSingleSamplePort(true, 2);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
+                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                    //  of digital data on demand, so no timeout is necessary.
+                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                    writer.WriteSingleSamplePort(true, 3);
+                    Thread.Sleep(wait);
+                    writer.WriteSingleSamplePort(true, 2);
                 }
             }
         }
 
         private void ReadInputBtn_Click(object sender, RoutedEventArgs e)
         {
-            try
+            using (NationalInstruments.DAQmx.Task digitalReadTask = new NationalInstruments.DAQmx.Task())
             {
-                using (NationalInstruments.DAQmx.Task digitalReadTask = new NationalInstruments.DAQmx.Task())
-                {
-                    digitalReadTask.DIChannels.CreateChannel(
-                        test2,
-                        "port1",
-                        ChannelLineGrouping.OneChannelForAllLines);
+                digitalReadTask.DIChannels.CreateChannel(
+                    test2,
+                    "port1",
+                    ChannelLineGrouping.OneChannelForAllLines);
 
-                    DigitalSingleChannelReader reader = new DigitalSingleChannelReader(digitalReadTask.Stream);
-                    UInt32 data = reader.ReadSingleSamplePortUInt32();
+                DigitalSingleChannelReader reader = new DigitalSingleChannelReader(digitalReadTask.Stream);
+                UInt32 data = reader.ReadSingleSamplePortUInt32();
 
-                    //Update the Data Read box
-                    LimitInputText.Text = data.ToString();
-                }
-            }
-            catch (DaqException ex)
-            {
-                MessageBox.Show(ex.Message);
+                //Update the Data Read box
+                LimitInputText.Text = data.ToString();
             }
         }
 
         private void startPump_btn_Click(object sender, RoutedEventArgs e)
         {
-            try
+            using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
             {
-                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                {
-                    //  Create an Digital Output channel and name it.
-                    digitalWriteTask.DOChannels.CreateChannel(test3, "port2",
-                        ChannelLineGrouping.OneChannelForAllLines);
+                //  Create an Digital Output channel and name it.
+                digitalWriteTask.DOChannels.CreateChannel(test3, "port2",
+                    ChannelLineGrouping.OneChannelForAllLines);
 
-                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                    //  of digital data on demand, so no timeout is necessary.
-                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                    writer.WriteSingleSamplePort(true, 1);
-                }
-                Console.WriteLine("Switched banks");
-                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                {
-                    //  Create an Digital Output channel and name it.
-                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                        ChannelLineGrouping.OneChannelForAllLines);
-
-                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                    //  of digital data on demand, so no timeout is necessary.
-                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                    writer.WriteSingleSamplePort(true, 12);
-                }
-                Console.WriteLine("Pump on");
+                //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                //  of digital data on demand, so no timeout is necessary.
+                DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                writer.WriteSingleSamplePort(true, 1);
             }
-            catch (Exception ex)
+            Console.WriteLine("Switched banks");
+            using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
             {
-                MessageBox.Show(ex.Message);
+                //  Create an Digital Output channel and name it.
+                digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                    ChannelLineGrouping.OneChannelForAllLines);
+
+                //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                //  of digital data on demand, so no timeout is necessary.
+                DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                writer.WriteSingleSamplePort(true, 12);
             }
+            Console.WriteLine("Pump on");
         }
 
         private void stopPump_btn_Click(object sender, RoutedEventArgs e)
         {
-            try
+            using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
             {
-                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                {
-                    //  Create an Digital Output channel and name it.
-                    digitalWriteTask.DOChannels.CreateChannel(test, "port0",
-                        ChannelLineGrouping.OneChannelForAllLines);
+                //  Create an Digital Output channel and name it.
+                digitalWriteTask.DOChannels.CreateChannel(test, "port0",
+                    ChannelLineGrouping.OneChannelForAllLines);
 
-                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                    //  of digital data on demand, so no timeout is necessary.
-                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                    writer.WriteSingleSamplePort(true, 8);
-                }
-                Console.WriteLine("Pump off");
-                using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
-                {
-                    //  Create an Digital Output channel and name it.
-                    digitalWriteTask.DOChannels.CreateChannel(test3, "port2",
-                        ChannelLineGrouping.OneChannelForAllLines);
-
-                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                    //  of digital data on demand, so no timeout is necessary.
-                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                    writer.WriteSingleSamplePort(true, 0);
-                }
-                Console.WriteLine("Switched banks back");
+                //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                //  of digital data on demand, so no timeout is necessary.
+                DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                writer.WriteSingleSamplePort(true, 8);
             }
-            catch (Exception ex)
+            Console.WriteLine("Pump off");
+            using (NationalInstruments.DAQmx.Task digitalWriteTask = new NationalInstruments.DAQmx.Task())
             {
-                MessageBox.Show(ex.Message);
+                //  Create an Digital Output channel and name it.
+                digitalWriteTask.DOChannels.CreateChannel(test3, "port2",
+                    ChannelLineGrouping.OneChannelForAllLines);
+
+                //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                //  of digital data on demand, so no timeout is necessary.
+                DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                writer.WriteSingleSamplePort(true, 0);
             }
+            Console.WriteLine("Switched banks back");
         }
 
         // x forward, y forward
