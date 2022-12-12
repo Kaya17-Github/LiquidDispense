@@ -705,8 +705,6 @@ namespace LiquidDispense
             double calNomVoltage = double.Parse(parameters[17].Substring(0, 3));
             double calMaxVoltage = double.Parse(parameters[16].Substring(0, 3));
 
-
-
             testArray[0] = ledOutputRange;
             testArray[1] = samplingRate;
             testArray[2] = numSamplesPerReading;
@@ -748,35 +746,47 @@ namespace LiquidDispense
 
             MessageBox.Show("Test setSettings: " + settingsBool);
 
-            double[] avgVals = new double[5];
-
             StringBuilder sb = new StringBuilder(5000);
             bool initializeBoardBool = testInitializeBoard(sb, sb.Capacity);
 
             MessageBox.Show("Test initializeBoard: " + initializeBoardBool + "\n" + sb.ToString());
 
-            for (int i = 0; i < 4; i++)
-            {
-                MessageBox.Show("Insert Cartridge and then click ok");
+            MessageBox.Show("Insert Cartridge and then click ok");
 
-                StringBuilder sb2 = new StringBuilder(10000);
+            StringBuilder sb2 = new StringBuilder(10000);
 
-                IntPtr testBoardValuePtr = testGetBoardValue(sb2, sb2.Capacity);
-                double[] testArray3 = new double[5];
-                Marshal.Copy(testBoardValuePtr, testArray3, 0, 5);
-                testString = "";
-                testString += "Return Value: m_dAvgValue = " + testArray3[0] + "\n";
-                // avgVals.Append(testArray3[0]);
-                avgVals[i] = testArray3[0];
-                testString += "Return Value: m_dCumSum = " + testArray3[1] + "\n";
-                testString += "Return Value: m_dLEDtmp = " + testArray3[2] + "\n";
-                testString += "Return Value: m_dPDtmp = " + testArray3[3] + "\n";
-                testString += "Return Value: testGetBoardValue = " + testArray3[4] + "\n";
+            IntPtr testBoardValuePtr = testGetBoardValue(sb2, sb2.Capacity);
+            double[] testArray3 = new double[5];
+            Marshal.Copy(testBoardValuePtr, testArray3, 0, 5);
+            testString = "";
+            testString += "Return Value: m_dAvgValue = " + testArray3[0] + "\n";
+            testString += "Return Value: m_dCumSum = " + testArray3[1] + "\n";
+            testString += "Return Value: m_dLEDtmp = " + testArray3[2] + "\n";
+            testString += "Return Value: m_dPDtmp = " + testArray3[3] + "\n";
+            testString += "Return Value: testGetBoardValue = " + testArray3[4] + "\n";
 
-                MessageBox.Show(testString + sb2.ToString());
+            MessageBox.Show(testString + sb2.ToString());
 
-                Console.WriteLine(avgVals[i].ToString());
-            }
+            testCloseTasksAndChannels();
+        }
+
+        private void readNextTest_btn_Click(object sender, RoutedEventArgs e)
+        {
+            string testString = "";
+
+            StringBuilder sb2 = new StringBuilder(10000);
+
+            IntPtr testBoardValuePtr = testGetBoardValue(sb2, sb2.Capacity);
+            double[] testArray3 = new double[5];
+            Marshal.Copy(testBoardValuePtr, testArray3, 0, 5);
+            testString = "";
+            testString += "Return Value: m_dAvgValue = " + testArray3[0] + "\n";
+            testString += "Return Value: m_dCumSum = " + testArray3[1] + "\n";
+            testString += "Return Value: m_dLEDtmp = " + testArray3[2] + "\n";
+            testString += "Return Value: m_dPDtmp = " + testArray3[3] + "\n";
+            testString += "Return Value: testGetBoardValue = " + testArray3[4] + "\n";
+
+            MessageBox.Show(testString + sb2.ToString());
 
             testCloseTasksAndChannels();
         }
