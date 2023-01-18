@@ -24,8 +24,8 @@
         <Button x:Name="q2Diag_btn" Content="Q2 Diagonal" HorizontalAlignment="Left" Margin="179,166,0,0" VerticalAlignment="Top" Click="q2Diag_btn_Click"/>
         <Button x:Name="q3Diag_btn" Content="Q3 Diagonal" HorizontalAlignment="Left" Margin="179,205,0,0" VerticalAlignment="Top" Click="q3Diag_btn_Click"/>
         <Button x:Name="q4Diag_btn" Content="Q4 Diagonal" HorizontalAlignment="Left" Margin="262,205,0,0" VerticalAlignment="Top" Click="q4Diag_btn_Click"/>
-        <Button x:Name="soundTest_btn" Content="Sound" HorizontalAlignment="Left" Margin="404,215,0,0" VerticalAlignment="Top" Click="soundTest_btn_Click"/>
         <Button x:Name="readTest_btn" Content="Read" HorizontalAlignment="Left" Margin="394,176,0,0" VerticalAlignment="Top" Click="readTest_btn_Click"/>
         <Button x:Name="readNextTest_btn_Copy" Content="Read Next" HorizontalAlignment="Left" Margin="439,176,0,0" VerticalAlignment="Top" Click="readNextTest_btn_Click"/>
+        <Button x:Name="centerTest_btn" Content="Center Test" HorizontalAlignment="Left" Margin="409,210,0,0" VerticalAlignment="Top" Click="centerTest_btn_Click"/>
     </Grid>
 </Window>
